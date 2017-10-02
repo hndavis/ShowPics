@@ -25,30 +25,30 @@ namespace FindAllPictures
         private async void button1_Click(object sender, EventArgs e)
         {
             PicInfoList.Clear();
-           //((ListBox)pictureList).DataSource = PicInfoList;
-           // ((ListBox)pictureList).ValueMember = "FullPath";
-           // ((ListBox)pictureList).DisplayMember = "FullPath";
-            DirectoryInfo di = new DirectoryInfo("O:");
+            char[] deliminators = { ';', ',' };
+            string[] drives = tbDrives.Text.Split(deliminators);
+           
             FindPictures pics = new FindPictures(pictureList);
             //longRunnning
-            await Task.Factory.StartNew(() => 
+            foreach (var drive in drives)
             {
-
-
-                pics.GetPictures(di, pictureList);
-                foreach(var pic in pics.picturesFound)
+                DirectoryInfo di = new DirectoryInfo(drive);
+                await Task.Factory.StartNew(() =>
                 {
-                    //    PicInfoList.Add(new PictureInfo() {FullPath=pic });
+
+
+                    pics.GetPictures(di, pictureList);
+                    foreach (var pic in pics.picturesFound)
+                    {
+                 
                         Debug.WriteLine(pic.FullPath);
-                    //    ((ListBox)pictureList).DataSource = null;
-                    //    ((ListBox)pictureList).DataSource = PicInfoList;
-                    //    ((ListBox)pictureList).Show();
-                    pictureList.Invoke(AddToListDel, pic) ;
+                        pictureList.Invoke(AddToListDel, pic);
 
-                }
+                    }
 
-            },
-            TaskCreationOptions.LongRunning);
+                },
+                TaskCreationOptions.LongRunning);
+            }
             
            
         }

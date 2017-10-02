@@ -33,6 +33,8 @@
             this.picDisplay = new System.Windows.Forms.PictureBox();
             this.Load = new System.Windows.Forms.Button();
             this.pbSave = new System.Windows.Forms.Button();
+            this.tbDrives = new System.Windows.Forms.TextBox();
+            this.lblDrives = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             this.SuspendLayout();
             // 
@@ -84,11 +86,29 @@
             this.pbSave.Text = "Save";
             this.pbSave.UseVisualStyleBackColor = true;
             // 
+            // tbDrives
+            // 
+            this.tbDrives.Location = new System.Drawing.Point(10, 50);
+            this.tbDrives.Name = "tbDrives";
+            this.tbDrives.Size = new System.Drawing.Size(399, 20);
+            this.tbDrives.TabIndex = 5;
+            // 
+            // lblDrives
+            // 
+            this.lblDrives.AutoSize = true;
+            this.lblDrives.Location = new System.Drawing.Point(12, 20);
+            this.lblDrives.Name = "lblDrives";
+            this.lblDrives.Size = new System.Drawing.Size(37, 13);
+            this.lblDrives.TabIndex = 6;
+            this.lblDrives.Text = "Drives";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1801, 850);
+            this.Controls.Add(this.lblDrives);
+            this.Controls.Add(this.tbDrives);
             this.Controls.Add(this.pbSave);
             this.Controls.Add(this.Load);
             this.Controls.Add(this.picDisplay);
@@ -98,6 +118,7 @@
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -108,6 +129,8 @@
         private System.Windows.Forms.PictureBox picDisplay;
         private System.Windows.Forms.Button Load;
         private System.Windows.Forms.Button pbSave;
+        private System.Windows.Forms.TextBox tbDrives;
+        private System.Windows.Forms.Label lblDrives;
     }
 }
 

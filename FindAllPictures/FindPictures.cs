@@ -30,31 +30,35 @@ namespace FindAllPictures
 
         public   void GetPictures(DirectoryInfo workingDir, CheckedListBox clb)
              {
-            FileInfo[] fi = null; ;
+            List<FileInfo> fiList = new List<FileInfo>() ;
+            
             // if this directory has files in it, add its path to the list.
             try
             {
-                fi = workingDir.GetFiles();
+                
+                foreach (var pType in PictureFileTypes)
+                {
+                    FileInfo[] fiSingle = null;
+                    fiSingle = workingDir.GetFiles("*" + pType);
+                    fiList.AddRange(fiSingle.ToList());
+                }
+             
             }
             catch(Exception ex)
             {
                 Debug.WriteLine(ex);
             }
-            if (fi != null && fi.Length > 0)
+            if (fiList != null && fiList.Count > 0)
             {
-                foreach(var file in fi)
+                foreach(var file in fiList)
                 {
-                    foreach (var pType in PictureFileTypes)
-                    {
-                        if (file.FullName.EndsWith(pType))
-                        {
-                            Debug.WriteLine(file.FullName);
-                            var picInfo = new PictureInfo() { FullPath = file.FullName };
-                            PicInfoList.Add(picInfo);
+                    Debug.WriteLine(file.FullName);
+                    var picInfo = new PictureInfo() { FullPath = file.FullName };
+                    PicInfoList.Add(picInfo);
                           
-                            picturesFound.Add(picInfo);
-                        }
-                    }
+                    picturesFound.Add(picInfo);
+                        
+                    
 
                 }
              //   paths.Add(workingDir.FullName);
