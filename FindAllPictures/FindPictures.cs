@@ -15,62 +15,67 @@ namespace FindAllPictures
         System.Windows.Forms.CheckedListBox displayClb;
 
         List<PictureInfo> PicInfoList;
-        public FindPictures(System.Windows.Forms.CheckedListBox clb )
+        public FindPictures(System.Windows.Forms.CheckedListBox clb)
         {
             PicInfoList = new List<PictureInfo>();
             displayClb = clb;
         }
-        public  BlockingCollection<PictureInfo> picturesFound = new BlockingCollection<PictureInfo>();
+        public BlockingCollection<PictureInfo> picturesFound = new BlockingCollection<PictureInfo>();
         public static List<string> PictureFileTypes = new List<string>() { ".png", ".jpg", ".gif" };
 
         public static void ListAllPictures(System.Windows.Forms.CheckedListBox clb)
         {
-            
+
         }
 
-        public   void GetPictures(DirectoryInfo workingDir, CheckedListBox clb)
-             {
-            List<FileInfo> fiList = new List<FileInfo>() ;
-            
+        public void GetPictures(DirectoryInfo workingDir, CheckedListBox clb)
+        {
+            if (IgnoreInfo.Instance.CanIgnorePath(workingDir.FullName))
+                return;
+            List<FileInfo> fiList = new List<FileInfo>();
+
             // if this directory has files in it, add its path to the list.
             try
             {
-                
+
                 foreach (var pType in PictureFileTypes)
                 {
                     FileInfo[] fiSingle = null;
                     fiSingle = workingDir.GetFiles("*" + pType);
                     fiList.AddRange(fiSingle.ToList());
                 }
-             
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
             if (fiList != null && fiList.Count > 0)
             {
-                foreach(var file in fiList)
+                foreach (var file in fiList)
                 {
                     Debug.WriteLine(file.FullName);
                     var picInfo = new PictureInfo() { FullPath = file.FullName };
                     PicInfoList.Add(picInfo);
-                          
+
                     picturesFound.Add(picInfo);
-                        
-                    
+
+
 
                 }
-             //   paths.Add(workingDir.FullName);
+                //   paths.Add(workingDir.FullName);
             }
-
+            if (IgnoreInfo.Instance.CanIgnorePath(workingDir.Name))
+            {
+                return;
+            }
             // Else, this directory has no files, so iterate through its children.
             DirectoryInfo[] diList = null;
             try
             {
                 diList = workingDir.GetDirectories();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
@@ -82,8 +87,8 @@ namespace FindAllPictures
                     GetPictures(childDir, clb);
                 }
             }
-           }
-        
+        }
+
     }
     public class PictureInfo
     {

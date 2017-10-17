@@ -75,7 +75,7 @@
             this.Load.TabIndex = 3;
             this.Load.Text = "Load";
             this.Load.UseVisualStyleBackColor = true;
-            this.Load.Click += new System.EventHandler(this.button2_Click);
+            this.Load.Click += new System.EventHandler(this.Load_Click);
             // 
             // pbSave
             // 
@@ -85,6 +85,7 @@
             this.pbSave.TabIndex = 4;
             this.pbSave.Text = "Save";
             this.pbSave.UseVisualStyleBackColor = true;
+            this.pbSave.Click += new System.EventHandler(this.pbSave_Click);
             // 
             // tbDrives
             // 
