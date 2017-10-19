@@ -13,6 +13,8 @@ using System.Xml;
 
 namespace FindAllPictures
 {
+    enum SaveType { All, Checked};
+    enum Operation { SaveList, CopyFiles};
     public partial class Form1 : Form
     {
         List<PictureInfo> PicInfoList = new List<PictureInfo>();
@@ -26,6 +28,7 @@ namespace FindAllPictures
         private async void button1_Click(object sender, EventArgs e)
         {
             PicInfoList.Clear();
+            pictureList.Items.Clear();
             char[] deliminators = { ';', ',' };
             string[] drives = tbDrives.Text.Split(deliminators);
 
@@ -73,8 +76,46 @@ namespace FindAllPictures
         {
 
         }
+        private void Copy(SaveType saveType)
+        {
+            var StartingPointer = Cursor.Current;
+            Cursor.Current = Cursors.WaitCursor;
+            FolderBrowserDialog dlg = new FolderBrowserDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                var toDirName = dlg.SelectedPath;
+                for (int i = 0; i < pictureList.Items.Count; i++)
+                {
+
+                    if ( saveType == SaveType.Checked)
+                    {
+                        if (pictureList.GetItemChecked(i))
+                        {
+                            var fileNameToCopy = pictureList.Items[i].ToString();
+                            var fileNameDest = toDirName + "\\" + Path.GetFileName(fileNameToCopy);
+                            File.Copy(fileNameToCopy, fileNameDest);
+                        }
+                    }
+                    else
+                    {
+                        var fileNameToCopy = pictureList.Items[i].ToString();
+                        var fileNameDest = toDirName +"\\"+ Path.GetFileName(fileNameToCopy);
+                        File.Copy(fileNameToCopy, fileNameDest);
+                    }
+
+
+                }
+            }
+            Cursor.Current = StartingPointer;
+
+
+        }
 
         private void pbSave_Click(object sender, EventArgs e)
+        {
+            Save(SaveType.Checked, Operation.SaveList);
+        }
+        private void Save(SaveType saveType, Operation operation)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             var profileDir = System.Environment.GetEnvironmentVariable("userprofile");
@@ -98,16 +139,30 @@ namespace FindAllPictures
                 XmlElement body = doc.CreateElement(string.Empty, "body", string.Empty);
                 doc.AppendChild(body);
 
+               
+
                 for (int i = 0; i < pictureList.Items.Count; i++)
                 {
-                    if (pictureList.GetItemChecked(i))
+                    if (saveType == SaveType.Checked)
+                    {
+                        if (pictureList.GetItemChecked(i))
+                        {
+                                XmlElement pictLo = doc.CreateElement(string.Empty, "Picture", string.Empty);
+                                var a = doc.CreateAttribute("Location");
+                                a.Value = pictureList.Items[i].ToString();
+                                pictLo.Attributes.Append(a);
+                                body.AppendChild(pictLo);
+               
+
+                        }
+                    }
+                    else if (saveType == SaveType.All)
                     {
                         XmlElement pictLo = doc.CreateElement(string.Empty, "Picture", string.Empty);
                         var a = doc.CreateAttribute("Location");
                         a.Value = pictureList.Items[i].ToString();
                         pictLo.Attributes.Append(a);
                         body.AppendChild(pictLo);
-
 
                     }
                 }
@@ -126,10 +181,31 @@ namespace FindAllPictures
             openDialogPictList.InitialDirectory = picShowDir;
             if (openDialogPictList.ShowDialog() == DialogResult.OK)
             {
+                pictureList.Items.Clear();
                 XmlDocument picList = new XmlDocument();
                 picList.Load(openDialogPictList.FileName);
+                foreach (XmlNode ig in picList.ChildNodes[1].ChildNodes)
+                {
+                    var fileName = ig.Attributes.GetNamedItem("Location").Value;
+                    pictureList.Items.Add(fileName);
+                }
             }
 
+        }
+
+        private void pbSaveAll_Click(object sender, EventArgs e)
+        {
+            Save(SaveType.All, Operation.SaveList);
+        }
+
+        private void CopyChecked_Click(object sender, EventArgs e)
+        {
+            Copy(SaveType.Checked);
+        }
+
+        private void CopyAll_Click(object sender, EventArgs e)
+        {
+            Copy(SaveType.All);
         }
     }
 }

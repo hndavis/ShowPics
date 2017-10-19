@@ -35,6 +35,9 @@
             this.pbSave = new System.Windows.Forms.Button();
             this.tbDrives = new System.Windows.Forms.TextBox();
             this.lblDrives = new System.Windows.Forms.Label();
+            this.pbSaveAll = new System.Windows.Forms.Button();
+            this.CopyAll = new System.Windows.Forms.Button();
+            this.CopyChecked = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picDisplay)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,7 +72,7 @@
             // 
             // Load
             // 
-            this.Load.Location = new System.Drawing.Point(144, 710);
+            this.Load.Location = new System.Drawing.Point(116, 710);
             this.Load.Name = "Load";
             this.Load.Size = new System.Drawing.Size(75, 23);
             this.Load.TabIndex = 3;
@@ -79,11 +82,11 @@
             // 
             // pbSave
             // 
-            this.pbSave.Location = new System.Drawing.Point(291, 710);
+            this.pbSave.Location = new System.Drawing.Point(197, 710);
             this.pbSave.Name = "pbSave";
-            this.pbSave.Size = new System.Drawing.Size(75, 23);
+            this.pbSave.Size = new System.Drawing.Size(116, 23);
             this.pbSave.TabIndex = 4;
-            this.pbSave.Text = "Save";
+            this.pbSave.Text = "Save Checked";
             this.pbSave.UseVisualStyleBackColor = true;
             this.pbSave.Click += new System.EventHandler(this.pbSave_Click);
             // 
@@ -103,11 +106,44 @@
             this.lblDrives.TabIndex = 6;
             this.lblDrives.Text = "Drives";
             // 
+            // pbSaveAll
+            // 
+            this.pbSaveAll.Location = new System.Drawing.Point(320, 710);
+            this.pbSaveAll.Name = "pbSaveAll";
+            this.pbSaveAll.Size = new System.Drawing.Size(75, 23);
+            this.pbSaveAll.TabIndex = 7;
+            this.pbSaveAll.Text = "Save All";
+            this.pbSaveAll.UseVisualStyleBackColor = true;
+            this.pbSaveAll.Click += new System.EventHandler(this.pbSaveAll_Click);
+            // 
+            // CopyAll
+            // 
+            this.CopyAll.Location = new System.Drawing.Point(319, 739);
+            this.CopyAll.Name = "CopyAll";
+            this.CopyAll.Size = new System.Drawing.Size(75, 23);
+            this.CopyAll.TabIndex = 8;
+            this.CopyAll.Text = "Copy All";
+            this.CopyAll.UseVisualStyleBackColor = true;
+            this.CopyAll.Click += new System.EventHandler(this.CopyAll_Click);
+            // 
+            // CopyChecked
+            // 
+            this.CopyChecked.Location = new System.Drawing.Point(197, 739);
+            this.CopyChecked.Name = "CopyChecked";
+            this.CopyChecked.Size = new System.Drawing.Size(116, 23);
+            this.CopyChecked.TabIndex = 9;
+            this.CopyChecked.Text = "Copy Checked";
+            this.CopyChecked.UseVisualStyleBackColor = true;
+            this.CopyChecked.Click += new System.EventHandler(this.CopyChecked_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1801, 850);
+            this.Controls.Add(this.CopyChecked);
+            this.Controls.Add(this.CopyAll);
+            this.Controls.Add(this.pbSaveAll);
             this.Controls.Add(this.lblDrives);
             this.Controls.Add(this.tbDrives);
             this.Controls.Add(this.pbSave);
@@ -132,6 +168,9 @@
         private System.Windows.Forms.Button pbSave;
         private System.Windows.Forms.TextBox tbDrives;
         private System.Windows.Forms.Label lblDrives;
+        private System.Windows.Forms.Button pbSaveAll;
+        private System.Windows.Forms.Button CopyAll;
+        private System.Windows.Forms.Button CopyChecked;
     }
 }
 
